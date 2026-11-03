@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Generador</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        /* Estilo personalizado para el borde punteado y fondo suave */
+        .drop-zone {
+            border: 2px dashed #b6cceb;
+            background-color: #f7fafe;
+            border-radius: 12px;
+            transition: all 0.2s ease-in-out;
+        }
+        .drop-zone:hover {
+            background-color: #edf4ff;
+            border-color: #0d6efd;  
+        }
+    </style>
+
+</head>
+
+<body style="--bs-body-bg:#F5F5F5;">
+
+    <section class="container-fluid px-5">
+        <section>
+            <h1 class="mt-4">Comprobación de Gastos de Caja Chica</h1>
+            <p class="small text-body-secondary">Selecciona el trabajador, la obra y agrega los archivos XML para generar el comprobante en Excel</p>
+        </section>
+
+        <section class="row g-3">
+            <section class="col-md-6">
+                <label for="trabajador" class="form-label">Trabajador</label>
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" placeholder="Nombre del trabajador" id="trabajador">
+            </section>
+            <section class="col-md-6">
+                <label for="obra" class="form-label">Obra</label>
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" placeholder="Nombre de la obra" id="obra">
+            </section>        
+        </section>
+
+        <!--Creamos la sección para boton de explorar y arrastrar archivos xml-->
+        <section class="mt-4">
+
+            <!-- Área de carga -->
+            <div class="drop-zone p-5 text-center d-flex flex-column align-items-center justify-content-center" id="zona">
+                <!-- Icono de Nube -->
+                <i class="bi bi-cloud-upload text-primary mb-2" style="font-size: 3.2rem;"></i>
+
+            <!-- Textos de instrucción -->
+                <h5 class="fw-bold text-dark mb-1">Arrastra tus archivos aquí</h5>
+                <p class="text-secondary small mb-3">o haz clic en el botón para explorar</p>
+
+            <!-- Input tipo File oculto -->
+                <input type="file" id="archivoXml" class="d-none" accept=".xml" multiple>
+
+            <!-- Botón vinculado al input -->
+                <label for="archivoXml" class="btn btn-primary px-4 py-2 d-inline-flex align-items-center gap-2 mb-3">
+                    <i class="bi bi-folder2-open fs-5"></i>
+                    <span>Explorar</span>
+                </label>
+
+                <!-- Subtexto restringido -->
+                <span class="text-secondary small opacity-75">Solo se permiten archivos .xml</span>
+            </div>
+        </section>
+    </section>
+<script>
+    const archivos = document.getElementById("archivoXml");
+    archivos.addEventListener("change",)
+</script>
+</body>
+</html>
