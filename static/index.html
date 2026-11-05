@@ -71,8 +71,15 @@
         </section>
     </section>
 <script>
-    const archivos = document.getElementById("archivoXml");
-    archivos.addEventListener("change",)
+    const archivos = document.getElementById("archivoXml");//guardamos en la variable "archivos" la información recolectada en "archivoXml"
+    const seleccionados = [];
+    
+    archivos.addEventListener("change",function (){
+        for (const select of archivos.files) {
+            seleccionados.push(select)
+    }
+        console.log(seleccionados)//imprimimos en la consola del navegador los objetos captados o guardados en en "seleccionados"(dame los archivos u objetos de guardados en la variable archivos)
+    })
 </script>
 </body>
 </html>
