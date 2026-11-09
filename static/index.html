@@ -71,32 +71,59 @@
         </section>
 
         <section class="card mt-4">
-            <div class="card-header">
-                <h6 class="mb-0 d-flex justify-content-between align-items-center">Archivos seleccionados</h6>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0  ">Archivos seleccionados</h6>
                 <span id="contador"></span>
             </div>
             <div>
                 <ul class="list-group list-group-flush" id="lista">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">FAC_001.xml
-                    <button class="btn btn-sm btn-outline-danger">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                    </li>
-
+                    
                 </ul>
+            </div>            
+        </section>
+
+        <section>
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn btn-primary" id="generar">Generar comprobación Excel</button>                
             </div>
-           
+            <p id="mensaje"></p>
         </section>
 
     </section>
+    
 <script>
     const archivos = document.getElementById("archivoXml");//guardamos en la variable "archivos" la información recolectada en "archivoXml"
     const seleccionados = [];//creamos una lista vacia para guarda lo que se recorra en el for
+
+    const lista = document.getElementById("lista")
+    const contador = document.getElementById("contador")
+
+    function dibujar_lista() {
+        lista.innerHTML = "";
+        for (const selec of seleccionados) {
+            const fila = document.createElement("li")
+            fila.className = "list-group-item d-flex justify-content-between align-items-center"
+            fila.innerHTML = `<span>${selec.name}</span>
+                              <span class="badge text-bg-success ms-auto me-3">Seleccionado</span>
+                              <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                              `;
+            const borrar = fila.querySelector("button")//el metodo QuerySelector busca dentro de un elemento lo primeor que concida, en este caso le estamos pasando la palabra "button" para que la detecte
+            borrar.addEventListener("click",function(){const posicion = seleccionados.indexOf(selec)//index0f busca un elemento dentro de una arreglo y devuelve su posicion, empezndo en 0, si no lo encuentra, devuelve -1, se necesita por que para borrar un arrelo primero hay que saber donde esta
+                                                             seleccionados.splice(posicion,1);//"splice" quia elementos de un arreglo, el primer dato es el de la posicion, y el segundo le decimos cuantos elementos retirar
+                                                             dibujar_lista()});//llamamos de nuevo la función               
+            lista.appendChild(fila)
+        
+        }
+    const selection = seleccionados.length
+    contador.textContent = `Hay ${selection} archivos`
+    }
     
     archivos.addEventListener("change",function (){
         for (const select of archivos.files) {//creamos un for para recorra la informacion captada "archivos.files"
-            seleccionados.push(select)//con .push, hacemos que los guarde en la lista creada anteriormente "seleccionados"
+            seleccionados.push(select)//con .push, hacemos que los guarde en la lista creada anteriormente "seleccionados"        
     }
+    dibujar_lista()
+    
         console.log(seleccionados)//imprimimos en la consola del navegador los objetos captados o guardados en en "seleccionados"(dame los archivos u objetos de guardados en la variable archivos)
     })
 </script>
