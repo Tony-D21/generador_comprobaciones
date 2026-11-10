@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,9 +16,10 @@
             border-radius: 12px;
             transition: all 0.2s ease-in-out;
         }
+
         .drop-zone:hover {
             background-color: #edf4ff;
-            border-color: #0d6efd;  
+            border-color: #0d6efd;
         }
     </style>
 
@@ -28,7 +30,8 @@
     <section class="container-fluid px-5">
         <section>
             <h1 class="mt-4">Comprobación de Gastos de Caja Chica</h1>
-            <p class="small text-body-secondary">Selecciona el trabajador, la obra y agrega los archivos XML para generar el comprobante en Excel</p>
+            <p class="small text-body-secondary">Selecciona el trabajador, la obra y agrega los archivos XML para
+                generar el comprobante en Excel</p>
         </section>
 
         <section class="row g-3">
@@ -41,25 +44,26 @@
                 <label for="obra" class="form-label">Obra</label>
                 <span class="text-danger">*</span>
                 <input type="text" class="form-control" placeholder="Nombre de la obra" id="obra">
-            </div>        
+            </div>
         </section>
 
         <!--Creamos la sección para boton de explorar y arrastrar archivos xml-->
         <section class="mt-4">
 
             <!-- Área de carga -->
-            <div class="drop-zone p-5 text-center d-flex flex-column align-items-center justify-content-center" id="zona">
+            <div class="drop-zone p-5 text-center d-flex flex-column align-items-center justify-content-center"
+                id="zona">
                 <!-- Icono de Nube -->
                 <i class="bi bi-cloud-upload text-primary mb-2" style="font-size: 3.2rem;"></i>
 
-            <!-- Textos de instrucción -->
+                <!-- Textos de instrucción -->
                 <h5 class="fw-bold text-dark mb-1">Arrastra tus archivos aquí</h5>
                 <p class="text-secondary small mb-3">o haz clic en el botón para explorar</p>
 
-            <!-- Input tipo File oculto -->
+                <!-- Input tipo File oculto -->
                 <input type="file" id="archivoXml" class="d-none" accept=".xml" multiple>
 
-            <!-- Botón vinculado al input -->
+                <!-- Botón vinculado al input -->
                 <label for="archivoXml" class="btn btn-primary px-4 py-2 d-inline-flex align-items-center gap-2 mb-3">
                     <i class="bi bi-folder2-open fs-5"></i>
                     <span>Explorar</span>
@@ -77,55 +81,65 @@
             </div>
             <div>
                 <ul class="list-group list-group-flush" id="lista">
-                    
+
                 </ul>
-            </div>            
+            </div>
         </section>
 
         <section>
             <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-primary" id="generar">Generar comprobación Excel</button>                
+                <button class="btn btn-primary" id="generar">Generar comprobación Excel</button>
             </div>
             <p id="mensaje"></p>
         </section>
 
     </section>
-    
-<script>
-    const archivos = document.getElementById("archivoXml");//guardamos en la variable "archivos" la información recolectada en "archivoXml"
-    const seleccionados = [];//creamos una lista vacia para guarda lo que se recorra en el for
 
-    const lista = document.getElementById("lista")
-    const contador = document.getElementById("contador")
+    <script>
+        const archivos = document.getElementById("archivoXml");//guardamos en la variable "archivos" la información recolectada en "archivoXml"
+        const seleccionados = [];//creamos una lista vacia para guarda lo que se recorra en el for
 
-    function dibujar_lista() {
-        lista.innerHTML = "";
-        for (const selec of seleccionados) {
-            const fila = document.createElement("li")
-            fila.className = "list-group-item d-flex justify-content-between align-items-center"
-            fila.innerHTML = `<span>${selec.name}</span>
+        const lista = document.getElementById("lista")
+        const contador = document.getElementById("contador")
+
+        function dibujar_lista() {
+            lista.innerHTML = "";
+            for (const selec of seleccionados) {
+                const fila = document.createElement("li")
+                fila.className = "list-group-item d-flex justify-content-between align-items-center"
+                fila.innerHTML = `<span>${selec.name}</span>
                               <span class="badge text-bg-success ms-auto me-3">Seleccionado</span>
                               <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
                               `;
-            const borrar = fila.querySelector("button")//el metodo QuerySelector busca dentro de un elemento lo primeor que concida, en este caso le estamos pasando la palabra "button" para que la detecte
-            borrar.addEventListener("click",function(){const posicion = seleccionados.indexOf(selec)//index0f busca un elemento dentro de una arreglo y devuelve su posicion, empezndo en 0, si no lo encuentra, devuelve -1, se necesita por que para borrar un arrelo primero hay que saber donde esta
-                                                             seleccionados.splice(posicion,1);//"splice" quia elementos de un arreglo, el primer dato es el de la posicion, y el segundo le decimos cuantos elementos retirar
-                                                             dibujar_lista()});//llamamos de nuevo la función               
-            lista.appendChild(fila)
-        
+                const borrar = fila.querySelector("button")//el metodo QuerySelector busca dentro de un elemento lo primeor que concida, en este caso le estamos pasando la palabra "button" para que la detecte
+                borrar.addEventListener("click", function () {
+                    const posicion = seleccionados.indexOf(selec)//index0f busca un elemento dentro de una arreglo y devuelve su posicion, empezndo en 0, si no lo encuentra, devuelve -1, se necesita por que para borrar un arrelo primero hay que saber donde esta
+                    seleccionados.splice(posicion, 1);//"splice" quia elementos de un arreglo, el primer dato es el de la posicion, y el segundo le decimos cuantos elementos retirar
+                    dibujar_lista()
+                });//llamamos de nuevo la función               
+                lista.appendChild(fila)
+
+            }
+            const selection = seleccionados.length//con "length" contamos la lista creada anteriormente, "seleccionados"
+            contador.textContent = ` ${selection} archivos cargados`//con "textContent" asignamos el texto plano dentro del elemento html "contador", que es una etiqueta span.
+        }       
+
+        function agregar_archivos(nuevos){
+            for (const archivo of nuevos) {//creamos un for para recorra la informacion captada "archivos.files"
+                seleccionados.push(archivo)//con .push, hacemos que los guarde en la lista creada anteriormente "seleccionados"        
+            }
+            dibujar_lista()
         }
-    const selection = seleccionados.length
-    contador.textContent = `Hay ${selection} archivos`
-    }
-    
-    archivos.addEventListener("change",function (){
-        for (const select of archivos.files) {//creamos un for para recorra la informacion captada "archivos.files"
-            seleccionados.push(select)//con .push, hacemos que los guarde en la lista creada anteriormente "seleccionados"        
-    }
-    dibujar_lista()
-    
-        console.log(seleccionados)//imprimimos en la consola del navegador los objetos captados o guardados en en "seleccionados"(dame los archivos u objetos de guardados en la variable archivos)
-    })
-</script>
+
+        archivos.addEventListener("change" , function () {
+            agregar_archivos(archivos.files)
+        })
+
+        const arrastre = document.getElementById("zona") //creamos la variable arrastre pars que cache el id que declaramos en esa zona
+        arrastre.addEventListener("dragover", function(e){e.preventDefault();})//Agregamos un escuchador para cuando ocurra el evento predeterminado de js ("dragover") y  el "preventDefault()" cancela lo que el navegador haría por defecto. Por defecto no deja soltar archivos en una página, y con esta línea sí.
+        arrastre.addEventListener("drop",function(e){e.preventDefault();//Agregamos un escuchador para cuando ocurra el evento predeterminado de js ("drop") y  el aqui el "preventDefault()" evita que abra el xml al dejarlo caer
+            agregar_archivos(e.dataTransfer.files)//llamamos la función "agregar_archivos" y el dataTransfer almacena temporalmente la informacion que el usuario viene arrastrando, con "e" accedemos al evento con dataTransfer  entras al contenedor del objeto arrastrado, con .files obtienes la lista de los archivos locales del usuario
+        });
+    </script>
 </body>
 </html>
