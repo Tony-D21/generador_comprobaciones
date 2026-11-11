@@ -126,6 +126,12 @@
 
         function agregar_archivos(nuevos){
             for (const archivo of nuevos) {//creamos un for para recorra la informacion captada "archivos.files"
+                if (!archivo.name.toLowerCase().endsWith(".xml")){//convertimos con .toLowerCase a minuscula, y le decimos que si termina con ".xml" haga le "push" que tenemos en la siguiente linea
+                    continue;
+                }
+                const existe = seleccionados.some(
+                    archivoGuardado => archivoGuardado.name === archivo.name
+                );
                 seleccionados.push(archivo)//con .push, hacemos que los guarde en la lista creada anteriormente "seleccionados"        
             }
             dibujar_lista()
@@ -133,6 +139,7 @@
 
         archivos.addEventListener("change" , function () {
             agregar_archivos(archivos.files)
+            archivos.value = "";
         })
 
         const arrastre = document.getElementById("zona") //creamos la variable arrastre pars que cache el id que declaramos en esa zona
