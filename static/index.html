@@ -101,6 +101,7 @@
 
         const lista = document.getElementById("lista")
         const contador = document.getElementById("contador")
+        const aviso = document.getElementById("mensaje")
 
         function dibujar_lista() {
             lista.innerHTML = "";
@@ -125,14 +126,29 @@
         }       
 
         function agregar_archivos(nuevos){
+            const avisos = []
             for (const archivo of nuevos) {//creamos un for para recorra la informacion captada "archivos.files"
-                if (!archivo.name.toLowerCase().endsWith(".xml")){//convertimos con .toLowerCase a minuscula, y le decimos que si termina con ".xml" haga le "push" que tenemos en la siguiente linea
+                if (!archivo.name.toLowerCase().endsWith(".xml")){//convertimos con .toLowerCase a minuscula, y le decimos que si no termina con ".xml" lo brinque y pase a continue
+                    avisos.push(`${archivo.name} no es un XML`)
                     continue;
                 }
                 const existe = seleccionados.some(
                     archivoGuardado => archivoGuardado.name === archivo.name
                 );
+                if (existe)  {// creamos una validacion, cuando el archivo si existe(se ejecuta la variable "existe") se acciona el "continue" y no realiza el "push"
+                    avisos.push(`${archivo.name} ya cargado anteriormente`)
+                    continue;
+                }
                 seleccionados.push(archivo)//con .push, hacemos que los guarde en la lista creada anteriormente "seleccionados"        
+            }
+            if (avisos.length > 0) {
+                aviso.textContent = avisos.join("|");//mandamos el aviso de que el archivo ya esta repetido, usamos el "|" para dividir los archivos si son varios
+                setTimeout(function(){//agregamos una función para un timer, para que el aviso solo dure unos segundos
+                    aviso.textContent = ""; 
+                },4000);//4000 milisegundos equivalen a 4 segundos
+            }
+            else{
+                aviso.textContent = "";
             }
             dibujar_lista()
         }
